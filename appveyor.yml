@@ -1,4 +1,6 @@
 version: 21.31.{build}
+install:
+- type Oxide.Core.csproj
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
@@ -6,6 +8,7 @@ dotnet_csproj:
   package_version: '{version}'
 build_script:
 - ps: |
+    type .\Oxide.Core.csproj
     Write-host "Appveyor build version: $env:appveyor_build_version"
     $xmlPath = "$env:appveyor_build_folder\dotnetcore-patch-csproj\dotnetcore-patch-csproj.csproj"
     $xml = [xml](get-content $xmlPath)
