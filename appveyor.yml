@@ -17,7 +17,7 @@ build_script:
     $xml = [xml](get-content $xmlPath)
     $propertyGroup = $xml.Project.PropertyGroup | Where { $_.Version}
     Write-host "Version: "$propertyGroup.Version    
-    if ($propertyGroup.Version -ne $env:appveyor_build_version) {throw "Version was not patched properly"}    
+    #if ($propertyGroup.Version -ne $env:appveyor_build_version) {throw "Version was not patched properly"}    
     $propertyGroup = $xml.Project.PropertyGroup | Where { $_.PackageVersion}
     Write-host "PackageVersion: "$propertyGroup.PackageVersion    
     #if ($propertyGroup.PackageVersion -ne $env:appveyor_build_version) {throw "PackageVersion was not patched properly"}
