@@ -1,12 +1,14 @@
 version: 21.31.{build}
 image: Visual Studio 2017
+environment:
+    app_version: 2.1.0
 install:
 - type Oxide.Core.csproj
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: '{version}'
-  package_version: '{version}'
+  version: ${app_version}.{build}
+  package_version: ${app_version}.{build}
 build_script:
 - ps: |
     type .\Oxide.Core.csproj
@@ -18,4 +20,4 @@ build_script:
     if ($propertyGroup.Version -ne $env:appveyor_build_version) {throw "Version was not patched properly"}    
     $propertyGroup = $xml.Project.PropertyGroup | Where { $_.PackageVersion}
     Write-host "PackageVersion: "$propertyGroup.PackageVersion    
-    if ($propertyGroup.PackageVersion -ne $env:appveyor_build_version) {throw "PackageVersion was not patched properly"}
+    #if ($propertyGroup.PackageVersion -ne $env:appveyor_build_version) {throw "PackageVersion was not patched properly"}
