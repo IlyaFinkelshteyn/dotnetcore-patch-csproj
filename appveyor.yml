@@ -7,8 +7,8 @@ install:
 dotnet_csproj:
   patch: true
   file: '**\*.csproj'
-  version: %app_version%.{build}
-  package_version: %app_version%.{build}
+  version: '%app_version%.{build}'
+  package_version: '%app_version%.{build}'
 build_script:
 - ps: |
     type .\Oxide.Core.csproj
