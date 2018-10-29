@@ -4,6 +4,7 @@
     <PackageId>Oxide.Core</PackageId>
     <Version>2.1.0.0</Version>
     <FileVersion>2.1.0.0</FileVersion>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>    
     <Authors>Oxide Team and Contributors</Authors>
     <Description>Core component for the Oxide modding framework</Description>
     <RepositoryUrl>https://github.com/OxideMore/Oxide.Core</RepositoryUrl>
