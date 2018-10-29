@@ -22,10 +22,12 @@ environment:
       TAG_SCENARIO: true # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 install:
-- type Oxide.Core.csproj
+- cmd: type .\Oxide.Core.csproj
+- sh: cat ./Oxide.Core.csproj
 
 build_script:
-- ps: type .\Oxide.Core.csproj
+- cmd: type .\Oxide.Core.csproj
+- sh: cat ./Oxide.Core.csproj
   
 for:
 -
