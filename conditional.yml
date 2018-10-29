@@ -53,14 +53,14 @@ for:
   dotnet_csproj:
     patch: true
     file: '**\*.csproj'
-    assembly_version: '{appveyor_repo_tag_name}'
+    assembly_version: '$(appveyor_repo_tag_name)'
     # For nuget and humans
     # This will be the tagged version from git, e.g. 0.2.1
-    informational_version: '{appveyor_repo_tag_name}'
+    informational_version: '$(appveyor_repo_tag_name)'
     # The version reported by the OS to other applications (e.g. Windows Explorer)
     # It can be increased for every build
     # This could be 0.2.1.25 (for a release) or my-feature-branch.25
-    file_version: '{appveyor_repo_tag_name}.{build} ({branch})' # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
+    file_version: '$(appveyor_repo_tag_name).{build} ({branch})' # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
   
   deploy_script:
     - echo tag deploy
