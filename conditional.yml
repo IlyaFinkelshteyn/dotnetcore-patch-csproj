@@ -1,0 +1,64 @@
+# TAG_SCENARIO is a fake variable to leverage https://www.appveyor.com/docs/build-configuration/#skip-matrix-jobs-conditionally
+environment:
+  matrix:
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      RELEASE_ID: win-x64
+      BUILD_ARTIFACT: nessie.exe
+      TAG_SCENARIO: false # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      
+    - APPVEYOR_BUILD_WORKER_IMAGE: ubuntu1804
+      RELEASE_ID: linux-x64
+      BUILD_ARTIFACT: Nessie
+      TAG_SCENARIO: false # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<     
+            
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      RELEASE_ID: win-x64
+      BUILD_ARTIFACT: nessie.exe
+      TAG_SCENARIO: true # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      
+    - APPVEYOR_BUILD_WORKER_IMAGE: ubuntu1804
+      RELEASE_ID: linux-x64
+      BUILD_ARTIFACT: Nessie      
+      TAG_SCENARIO: true # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+install:
+- type Oxide.Core.csproj
+
+build_script:
+- ps: type .\Oxide.Core.csproj
+  
+for:
+-
+  # only for not-git-tagged releases...
+  matrix:
+    only:
+      - TAG_SCENARIO: false # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+      
+  skip_tags: true # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  
+-
+  # only for git-tagged releases...
+  matrix:
+    only:
+      - TAG_SCENARIO: true # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  skip_non_tags: true # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+  #version is ignored in for.matrix construct, because it is a general build level setting
+  #https://www.appveyor.com/docs/build-configuration/#specializing-matrix-job-configuration 
+  #version: '{appveyor_repo_tag_name}.{build}'
+  
+  dotnet_csproj:
+    patch: true
+    file: '**\*.csproj'
+    assembly_version: '{appveyor_repo_tag_name}'
+    # For nuget and humans
+    # This will be the tagged version from git, e.g. 0.2.1
+    informational_version: '{appveyor_repo_tag_name}'
+    # The version reported by the OS to other applications (e.g. Windows Explorer)
+    # It can be increased for every build
+    # This could be 0.2.1.25 (for a release) or my-feature-branch.25
+    file_version: '{appveyor_repo_tag_name}.{build} ({branch})' # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<  
+  
+  deploy_script:
+    - echo tag deploy
